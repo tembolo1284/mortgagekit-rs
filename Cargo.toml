@@ -1,0 +1,66 @@
+[package]
+name = "mortgagekit-rs"
+version = "0.1.0"
+edition = "2021"
+authors = ["Paul Nikholas Lopez <nik.lopez381@gmail.com>"]
+description = "A high-precision mortgage engine powered by Rust"
+license = "MIT"
+repository = "https://github.com/tembolo1284/mortgagekit-rs"
+keywords = ["mortgage", "finance", "calculator", "api"]
+categories = ["finance", "web-programming"]
+readme = "README.md"
+
+[dependencies]
+# Core dependencies
+rust_decimal = { version = "1.32", features = ["serde"] }
+rust_decimal_macros = "1.32"
+chrono = { version = "0.4", features = ["serde"] }
+rand = "0.8"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Web framework and utilities
+actix-web = "4.4"
+actix-cors = "0.6"
+actix-rt = "2.9"
+
+# Error handling and validation
+thiserror = "1.0"
+validator = { version = "0.16", features = ["derive"] }
+
+# API documentation
+utoipa = { version = "4.1", features = ["actix_extras"] }
+
+# Logging and configuration
+env_logger = "0.10"
+log = "0.4"
+
+# Async runtime
+tokio = { version = "1.0", features = ["full"] }
+
+[dev-dependencies]
+# Testing utilities
+actix-rt = "2.9"
+reqwest = { version = "0.11", features = ["json"] }
+test-case = "3.1"
+
+[features]
+default = []
+production = []
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = 'abort'
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
