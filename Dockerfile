@@ -1,5 +1,5 @@
 # Builder stage
-FROM rust:1.75-slim-bullseye as builder
+FROM rust:1.75 AS builder
 
 # Create a new empty shell project
 WORKDIR /usr/src/mortgagekit-rs
@@ -12,13 +12,10 @@ COPY src ./src/
 COPY tests ./tests/
 
 # Build for release with optimizations
-RUN --mount=type=cache,target=/usr/local/cargo/registry \
-    --mount=type=cache,target=/usr/src/mortgagekit-rs/target \
-    cargo build --release && \
-    cp target/release/mortgagekit-rs /usr/local/bin/
+RUN cargo build --release
 
 # Runtime stage
-FROM debian:bullseye-slim
+FROM debian:bookworm-slim
 
 # Install runtime dependencies
 RUN apt-get update && \
@@ -26,7 +23,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy the binary from builder
-COPY --from=builder /usr/local/bin/mortgagekit-rs /usr/local/bin/mortgagekit-rs
+COPY --from=builder /usr/src/mortgagekit-rs/target/release/mortgagekit-rs /usr/local/bin/mortgagekit-rs
 
 # Set environment variables
 ENV RUST_LOG=info
