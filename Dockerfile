@@ -4,19 +4,14 @@ FROM rust:1.75.0-slim-bookworm AS builder
 # Create a new empty shell project
 WORKDIR /usr/src/mortgagekit-rs
 
-# Create a dummy project for caching dependencies
-RUN cargo new .
+# Copy over manifests
 COPY Cargo.toml Cargo.lock ./
 
-# Build dependencies only (this layer will be cached)
-RUN cargo build --release
-RUN rm src/*.rs
-
-# Copy actual source code
+# Create src directory and copy source files
 COPY src ./src/
 COPY tests ./tests/
 
-# Build the actual binary
+# Build for release
 RUN cargo build --release
 
 # Runtime stage

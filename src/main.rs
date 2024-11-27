@@ -8,7 +8,7 @@ async fn main() -> std::io::Result<()> {
     // Initialize environment logger with timestamp
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
     
-    let host = "127.0.0.1";
+    let host = "0.0.0.0";
     let port = 8080;
     
     info!("Starting mortgagekit-rs server on http://{}:{}", host, port);

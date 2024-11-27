@@ -116,6 +116,13 @@ curl -X POST http://localhost:8080/api/v1/calculate \
     "termYears": 30,
     "repaymentType": "standardPrincipalAndInterest",
     "startDate": "2024-11-25"
+  }' | jq '.schedule[] | {
+    "Payment Date": .paymentDate,
+    "Payment #": .paymentNumber,
+    "Payment": (.paymentAmount | tonumber | round | tostring),
+    "Principal": (.principalComponent | tonumber | round | tostring),
+    "Interest": (.interestComponent | tonumber | round | tostring),
+    "Remaining": (.remainingPrincipal | tonumber | round | tostring)
   }'
 
 # Calculate an interest-only mortgage
@@ -127,6 +134,13 @@ curl -X POST http://localhost:8080/api/v1/calculate \
     "termYears": 30,
     "repaymentType": "interestOnly",
     "startDate": "2024-11-25"
+  }' | jq '.schedule[] | {
+    "Payment Date": .paymentDate,
+    "Payment #": .paymentNumber,
+    "Payment": (.paymentAmount | tonumber | round | tostring),
+    "Principal": (.principalComponent | tonumber | round | tostring),
+    "Interest": (.interestComponent | tonumber | round | tostring),
+    "Remaining": (.remainingPrincipal | tonumber | round | tostring)
   }'
 
 # Calculate an accelerated biweekly mortgage
@@ -138,6 +152,13 @@ curl -X POST http://localhost:8080/api/v1/calculate \
     "termYears": 30,
     "repaymentType": "acceleratedBiweekly",
     "startDate": "2024-11-25"
+  }' | jq '.schedule[] | {
+    "Payment Date": .paymentDate,
+    "Payment #": .paymentNumber,
+    "Payment": (.paymentAmount | tonumber | round | tostring),
+    "Principal": (.principalComponent | tonumber | round | tostring),
+    "Interest": (.interestComponent | tonumber | round | tostring),
+    "Remaining": (.remainingPrincipal | tonumber | round | tostring)
   }'
 
 # Calculate a balloon payment mortgage
@@ -150,6 +171,13 @@ curl -X POST http://localhost:8080/api/v1/calculate \
     "repaymentType": "balloonPayment",
     "balloonPaymentPercentage": 20.0,
     "startDate": "2024-11-25"
+  }' | jq '.schedule[] | {
+    "Payment Date": .paymentDate,
+    "Payment #": .paymentNumber,
+    "Payment": (.paymentAmount | tonumber | round | tostring),
+    "Principal": (.principalComponent | tonumber | round | tostring),
+    "Interest": (.interestComponent | tonumber | round | tostring),
+    "Remaining": (.remainingPrincipal | tonumber | round | tostring)
   }'
 
 # Calculate a floating rate mortgage
@@ -161,6 +189,13 @@ curl -X POST http://localhost:8080/api/v1/calculate \
     "termYears": 30,
     "repaymentType": "floatingRate",
     "startDate": "2024-11-25"
+  }' | jq '.schedule[] | {
+    "Payment Date": .paymentDate,
+    "Payment #": .paymentNumber,
+    "Payment": (.paymentAmount | tonumber | round | tostring),
+    "Principal": (.principalComponent | tonumber | round | tostring),
+    "Interest": (.interestComponent | tonumber | round | tostring),
+    "Remaining": (.remainingPrincipal | tonumber | round | tostring)
   }'
 
 # Get available repayment types
