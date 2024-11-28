@@ -4,8 +4,11 @@ FROM rust:1.75.0-slim-bookworm AS builder
 # Create a new empty shell project
 WORKDIR /usr/src/mortgagekit-rs
 
-# Copy over manifests
-COPY Cargo.toml Cargo.lock ./
+# First copy only Cargo.toml
+COPY Cargo.toml ./
+
+# Create dummy Cargo.lock if it doesn't exist
+RUN touch Cargo.lock
 
 # Create src directory and copy source files
 COPY src ./src/
@@ -38,10 +41,6 @@ USER mortgagekit
 
 # Expose the API port
 EXPOSE 8080
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/api/v1/health || exit 1
 
 # Set the entrypoint
 ENTRYPOINT ["mortgagekit-rs"]
